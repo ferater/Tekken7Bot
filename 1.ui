@@ -69,19 +69,19 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="groupBox_punishment">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>221</width>
+      <width>171</width>
       <height>51</height>
      </rect>
     </property>
     <property name="title">
      <string>Punishment</string>
     </property>
-    <widget class="QRadioButton" name="radioButton_punishBot_on">
+    <widget class="QCheckBox" name="checkBox_punishBot">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -91,23 +91,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>PunishBot On</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radioButton_punishBot_off">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>20</y>
-       <width>101</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PunishBot Off</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
+      <string>Punishment ON</string>
      </property>
     </widget>
    </widget>
@@ -137,6 +121,45 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>80</y>
+      <width>201</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Dont GetUp</string>
+    </property>
+    <widget class="QCheckBox" name="checkBox_stayOnTheGround">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>131</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stay On The Ground</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>181</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Useful for some chars like Lei, Eddy..</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

@@ -16,18 +16,17 @@ class Window(QMainWindow):
         self.isPunishmentOn = None
         self.stayOnTheGround = None
         # Check if PunishBot is on or off
-        self.punishBotOnOff()
+        self.updateBotOptions()
         # Check player side on bot start
         self.selectPlayerSide()
-        # # set BotOptions
-        # self.botOptions = BotOptions(
-        #     isPunishmentOn=self.isPunishmentOn, stayOnTheGround=self.stayOnTheGround)
         # Player Side Select Radio Buttons
         self.Ui.radioButton_p1.clicked.connect(self.selectPlayerSide)
         self.Ui.radioButton_p2.clicked.connect(self.selectPlayerSide)
         # PunishBot On Off Radio Buttons
-        self.Ui.radioButton_punishBot_on.clicked.connect(self.punishBotOnOff)
-        self.Ui.radioButton_punishBot_off.clicked.connect(self.punishBotOnOff)
+        self.Ui.checkBox_punishBot.stateChanged.connect(self.updateBotOptions)
+        self.Ui.checkBox_stayOnTheGround.stateChanged.connect(
+            self.updateBotOptions)
+
         self.update()
         # update program every 7 milisecond
         self.timer = QTimer(self)
@@ -46,13 +45,9 @@ class Window(QMainWindow):
 
     # PunishBot On Off Function
 
-    def punishBotOnOff(self):
-        if self.Ui.radioButton_punishBot_on.isChecked():
-            self.isPunishmentOn = True
-            self.Ui.label_punish.setText("Punish is on")
-        else:
-            self.isPunishmentOn = False
-            self.Ui.label_punish.setText("Punish is off")
+    def updateBotOptions(self):
+        self.isPunishmentOn = self.Ui.checkBox_punishBot.isChecked()
+        self.stayOnTheGround = self.Ui.checkBox_stayOnTheGround.isChecked()
         self.botOptions = BotOptions(
             isPunishmentOn=self.isPunishmentOn, stayOnTheGround=self.stayOnTheGround)
         self.update()
