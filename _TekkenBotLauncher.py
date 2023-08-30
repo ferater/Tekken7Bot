@@ -17,15 +17,14 @@ from BotRecorder import BotRecorder
 
 
 class TekkenBotLauncher:
-    def __init__(self, botClass, isPlayerOne):
+    def __init__(self, botClass, isPlayerOne, botOptions=None):
         self.gameState = TekkenGameState.TekkenGameState()
         self.gameController = GameInputter.GameControllerInputter()
         self.botCommands = BasicCommands.BotCommands(self.gameController)
-        self.botBrain = botClass(self.botCommands)
+        self.botBrain = botClass(self.botCommands, botOptions)
         self.benchmarkTime = time.time()
         self.frameRateCounter = 0
         self.frameRate = 0
-        print("botlauncher", isPlayerOne)
         # bot side True = Player 1, False = Player 2
         self.isPlayerOne = isPlayerOne
         # before turning this on, make sure that your 'accept' key and your '3' key are different in GameControllerInputter.
