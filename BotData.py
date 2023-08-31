@@ -6,6 +6,7 @@ from CharacterData import *
 
 import random
 
+
 class BotBehaviors:
 
     # NOTE: Bot have trouble defending against attacks like Akuma's "hyaki zangeki".
@@ -37,7 +38,19 @@ class BotBehaviors:
         if gameState.IsBotBeingJuggled():
             botCommands.MashTech()
 
-    def DefendAllAttacks(gameState: TekkenGameState, botCommands:BotCommands):
+    def DefendHighMidAttacks(gameState: TekkenGameState, botCommands: BotCommands):
+        if gameState.IsOppAttacking():
+            frames = gameState.GetOppTimeUntilImpact()
+            if not gameState.IsOppAttackLow():
+                botCommands.BlockMidFull(max(0, frames))
+
+    def DefendLowAttacks(gameState: TekkenGameState, botCommands: BotCommands):
+        if gameState.IsOppAttacking():
+            frames = gameState.GetOppTimeUntilImpact()
+            if gameState.IsOppAttackLow():
+                botCommands.BlockLowFull(max(0, frames))
+
+    def DefendAllAttacks(gameState: TekkenGameState, botCommands: BotCommands):
         if gameState.IsOppAttacking():
             frames = gameState.GetOppTimeUntilImpact()
             if gameState.IsOppAttackLow():
@@ -45,7 +58,7 @@ class BotBehaviors:
             else:
                 botCommands.BlockMidFull(max(0, frames))
 
-    def TryBreakThrows(gameState: TekkenGameState, botCommands:BotCommands) -> bool:
+    def TryBreakThrows(gameState: TekkenGameState, botCommands: BotCommands) -> bool:
         """
         Spam break throws when opponent is attempting to throw.
 
@@ -68,8 +81,7 @@ class BotBehaviors:
             return True
         return False
 
-
-    def DefendAndCounter(gameState: TekkenGameState, botCommands:BotCommands, gameplan: Gameplan) -> bool:
+    def DefendAndCounter(gameState: TekkenGameState, botCommands: BotCommands, gameplan: Gameplan) -> bool:
         """
         Counter (with another attack) whenever possible, blocks otherwise.
 
@@ -94,7 +106,8 @@ class BotBehaviors:
 
             # Dont counter if distance is too big (2.0)
             if dist < 2000.0 and COUNTER_CHANCE >= random.randint(0, 100):
-                counter = BotBehaviors.CanCounter(frames - 2, gameState, oppAirborne)
+                counter = BotBehaviors.CanCounter(
+                    frames - 2, gameState, oppAirborne)
             else:
                 counter = False
 
@@ -105,16 +118,20 @@ class BotBehaviors:
             if counter:
                 counterCommand = None
                 if oppAirborne:
-                    counterCommand = gameplan.GetMoveByFrame(ResponseTypes.air_counters, frames - 1)
+                    counterCommand = gameplan.GetMoveByFrame(
+                        ResponseTypes.air_counters, frames - 1)
                     print("Get Counter for air :: " + str(counterCommand))
                 elif oppLowAtk:
-                    counterCommand = gameplan.GetMoveByFrame(ResponseTypes.low_counters, frames - 1)
+                    counterCommand = gameplan.GetMoveByFrame(
+                        ResponseTypes.low_counters, frames - 1)
                     print("Get Counter for low :: " + str(counterCommand))
                 elif oppMidAtk:
-                    counterCommand = gameplan.GetMoveByFrame(ResponseTypes.mid_counters, frames - 1)
+                    counterCommand = gameplan.GetMoveByFrame(
+                        ResponseTypes.mid_counters, frames - 1)
                     print("Get Counter for Mid :: " + str(counterCommand))
                 else:
-                    counterCommand = gameplan.GetMoveByFrame(ResponseTypes.high_counters, frames - 1)
+                    counterCommand = gameplan.GetMoveByFrame(
+                        ResponseTypes.high_counters, frames - 1)
                     print("Get Counter for High :: " + str(counterCommand))
 
                 if not counterCommand == None:
@@ -141,7 +158,8 @@ class BotBehaviors:
 
     def UnblockIncomingAttacks(self, gameState: TekkenGameState):
         if gameState.IsOppAttacking():
-            self.botCommands.WalkForward(max(0, gameState.GetOppTimeUntilImpact()))
+            self.botCommands.WalkForward(
+                max(0, gameState.GetOppTimeUntilImpact()))
 
     def CanCounter(frames: int, gameState: TekkenGameState, airborneOpp: bool):
         # Dont counter crushes
@@ -150,7 +168,7 @@ class BotBehaviors:
         # Dont counter if we are currently blocking
         elif gameState.IsBotBlocking():
             return False
-            
+
         # Counter if the attack is more than 10 frames
         elif frames > 10:
             return True

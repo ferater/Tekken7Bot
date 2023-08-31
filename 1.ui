@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>414</width>
-    <height>600</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,33 +95,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_punish">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>290</y>
-      <width>171</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>18</pointsize>
-      <weight>50</weight>
-      <italic>true</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
@@ -158,6 +131,149 @@
      </property>
      <property name="text">
       <string>Useful for some chars like Lei, Eddy..</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>ThrowTech</string>
+    </property>
+    <widget class="QCheckBox" name="checkBox_escapeFromThrows">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>141</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Escape From Throws</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>151</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>May not Work on Every Throw</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>311</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Defend Attacks</string>
+    </property>
+    <widget class="QRadioButton" name="radioButton_blockHigh">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>20</y>
+       <width>121</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>High and Mid Attacks</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_blockLow">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>20</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Low Attacks</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_blockAll">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Defend All</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>271</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Low Attack Block Style</string>
+    </property>
+    <widget class="QRadioButton" name="radioButton_parryLow">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>20</y>
+       <width>61</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Parry</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_randomLow">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>20</y>
+       <width>71</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Random</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_blockLowAll">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>51</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Block</string>
      </property>
     </widget>
    </widget>
