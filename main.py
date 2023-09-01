@@ -17,6 +17,7 @@ class Window(QMainWindow):
         self.stayOnTheGround = None
         self.escapeFromThrows = None
         self.blockType = None
+        self.blockLowType = None
         # Check if PunishBot is on or off
         self.updateBotOptions()
         # Check player side on bot start
@@ -69,8 +70,14 @@ class Window(QMainWindow):
             self.blockType = self.Ui.radioButton_blockHigh.text()
         elif self.Ui.radioButton_blockLow.isChecked():
             self.blockType = self.Ui.radioButton_blockLow.text()
+        if self.Ui.radioButton_blockLowAll.isChecked():
+            self.blockLowType = self.Ui.radioButton_blockLowAll.text()
+        elif self.Ui.radioButton_parryLow.isChecked():
+            self.blockLowType = self.Ui.radioButton_parryLow.text()
+        elif self.Ui.radioButton_randomLow.isChecked():
+            self.blockLowType = self.Ui.radioButton_randomLow.text()
         self.botOptions = BotOptions(
-            isPunishmentOn=self.isPunishmentOn, stayOnTheGround=self.stayOnTheGround, escapeFromThrows=self.escapeFromThrows, blockType=self.blockType)
+            isPunishmentOn=self.isPunishmentOn, stayOnTheGround=self.stayOnTheGround, escapeFromThrows=self.escapeFromThrows, blockType=self.blockType, blockLowType=self.blockLowType)
         self.update()
 
     def update_launcher(self):

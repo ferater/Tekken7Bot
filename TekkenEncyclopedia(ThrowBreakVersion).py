@@ -50,7 +50,8 @@ class TekkenEncyclopedia:
                     player_char = args[2].strip()
                     opponent_name = args[4].strip()
                     opponent_char = args[5].strip()
-                    self.AddStat(result, player_char, opponent_name, opponent_char)
+                    self.AddStat(result, player_char,
+                                 opponent_name, opponent_char)
         except FileNotFoundError:
             pass
 
@@ -112,7 +113,8 @@ class TekkenEncyclopedia:
     def CheckJumpFrameDataFallback(self, gameState):
         if not self.isPlayerOne:
             if gameState.IsFulfillJumpFallbackConditions():
-                print("p1 jump frame diff: " + str(gameState.GetBotMoveTimer() - gameState.GetOppMoveTimer()))
+                print("p1 jump frame diff: " +
+                      str(gameState.GetBotMoveTimer() - gameState.GetOppMoveTimer()))
 
     def Update(self, gameState: TekkenGameState):
         if self.isPlayerOne:
@@ -135,7 +137,8 @@ class TekkenEncyclopedia:
             self.previous_frame_data_entry = self.current_frame_data_entry
 
             if self.current_punish_window != None:
-                self.ClosePunishWindow(PunishWindow.Result.NO_WINDOW, do_close_frame_data_entries=False)
+                self.ClosePunishWindow(
+                    PunishWindow.Result.NO_WINDOW, do_close_frame_data_entries=False)
 
             # if int(self.current_frame_data_entry.currentFrameAdvantage) <= 999999:
             self.current_punish_window = PunishWindow(self.current_frame_data_entry.prefix,
@@ -164,11 +167,14 @@ class TekkenEncyclopedia:
                 fa = (-1 * self.current_punish_window.get_frame_advantage())
                 startup = fa - leeway
                 if fa >= LAUNCH_PUNISHIBLE and startup <= BAD_PUNISH_THRESHOLD:
-                    self.ClosePunishWindow(PunishWindow.Result.NO_LAUNCH_ON_LAUNCHABLE)
+                    self.ClosePunishWindow(
+                        PunishWindow.Result.NO_LAUNCH_ON_LAUNCHABLE)
                 elif fa >= LAUNCH_PUNISHIBLE:
-                    self.ClosePunishWindow(PunishWindow.Result.LAUNCH_ON_LAUNCHABLE)
+                    self.ClosePunishWindow(
+                        PunishWindow.Result.LAUNCH_ON_LAUNCHABLE)
                 else:
-                    self.ClosePunishWindow(PunishWindow.Result.JAB_ON_NOT_LAUNCHABLE)
+                    self.ClosePunishWindow(
+                        PunishWindow.Result.JAB_ON_NOT_LAUNCHABLE)
 
             elif gameState.HasOppReturnedToNeutralFromMoveId(
                     self.current_punish_window.move_id) and self.punish_window_counter >= self.current_punish_window.hit_recovery:
@@ -201,10 +207,12 @@ class TekkenEncyclopedia:
 
                 was_unblockable = gameState.IsOppAttackUnblockable()
                 was_antiair = gameState.IsOppAttackAntiair()
-                was_block_punish = gameState.DidBotStartGettingPunishedXFramesAgo(1)
+                was_block_punish = gameState.DidBotStartGettingPunishedXFramesAgo(
+                    1)
                 perfect_punish = False
                 if was_block_punish:
-                    perfect_punish = gameState.BotFramesUntilRecoveryXFramesAgo(2) == 1
+                    perfect_punish = gameState.BotFramesUntilRecoveryXFramesAgo(
+                        2) == 1
                 was_counter_hit = gameState.IsBotGettingCounterHit()
                 was_ground_hit = gameState.IsBotGettingHitOnGround()
 
@@ -245,18 +253,18 @@ class TekkenEncyclopedia:
 
                 # print("event open")
             else:
-                bot_damage_taken = gameState.DidBotJustTakeDamage(frames_ago + 1)
+                bot_damage_taken = gameState.DidBotJustTakeDamage(
+                    frames_ago + 1)
                 if bot_damage_taken > 0:
                     # print('armored')
                     game_event = GameStatEventEntry(gameState.stateLog[-1].timer_frames_remaining,
-                                                    self.GetPlayerString(True), GameStatEventEntry.EntryType.ARMORED,
+                                                    self.GetPlayerString(
+                                                        True), GameStatEventEntry.EntryType.ARMORED,
                                                     0)  # this is probably gonna break for Yoshimitsu's self damage moves
                     game_event.close_entry(gameState.stateLog[-1].timer_frames_remaining, 1, bot_damage_taken, 0,
                                            len(self.GameEvents))
 
                     self.GameEvents.append(game_event)
-
-
 
         else:
             if gameState.DidOppComboCounterJustEndXFramesAgo(frames_ago) or gameState.WasFightReset():
@@ -282,7 +290,7 @@ class TekkenEncyclopedia:
                 round_number = gameState.GetRoundNumber()
                 print("!ROUND | {} | HIT".format(round_number))
                 if (gameState.stateLog[-1].bot.wins == 3 or gameState.stateLog[
-                    -1].opp.wins == 3) and not self.is_match_recorded:
+                        -1].opp.wins == 3) and not self.is_match_recorded:
                     self.is_match_recorded = True
 
                     player_name = "You"
@@ -312,11 +320,13 @@ class TekkenEncyclopedia:
                                                                                      player_wins, opponent_wins,
                                                                                      time.strftime('%Y_%m_%d_%H.%M'))
                     print("{}".format(match_result))
-                    self.AddStat(result, player_char, opponent_name, opponent_char)
+                    self.AddStat(result, player_char,
+                                 opponent_name, opponent_char)
                     with open(self.stat_filename, "a", encoding='utf-8') as fa:
                         fa.write(match_result + '\n')
             if (gameState.GetTimer(frames_ago) < 3600 and len(self.GameEvents) > 0) or True:
-                summary = RoundSummary(self.GameEvents, gameState.GetOppRoundSummary(frames_ago))
+                summary = RoundSummary(
+                    self.GameEvents, gameState.GetOppRoundSummary(frames_ago))
 
             self.GameEvents = []
 
@@ -331,8 +341,10 @@ class TekkenEncyclopedia:
             player_char = gameState.stateLog[-1].bot.character_name
         opponent_name = gameState.stateLog[-1].opponent_name
         return [
-            ("!RECORD | vs {}: {}".format(opponent_char, self.RecordFromStat('char_stats', opponent_char))),
-            ("!RECORD | vs {}: {}".format(opponent_name, self.RecordFromStat('opponent_stats', opponent_name))),
+            ("!RECORD | vs {}: {}".format(opponent_char,
+             self.RecordFromStat('char_stats', opponent_char))),
+            ("!RECORD | vs {}: {}".format(opponent_name,
+             self.RecordFromStat('opponent_stats', opponent_name))),
             ("!RECORD | {} vs {}: {}".format(player_char, opponent_char, self.RecordFromStat("matchup_stats",
                                                                                              "{} vs {}".format(
                                                                                                  player_char,
@@ -351,7 +363,7 @@ class TekkenEncyclopedia:
                     self.active_frame_wait):  # or gameState.DidOppIdChangeXMovesAgo(self.active_frame_wait):
 
                 is_recovering_before_long_active_frame_move_completes = (
-                        gameState.GetBotRecovery() - gameState.GetBotMoveTimer() == 0)
+                    gameState.GetBotRecovery() - gameState.GetBotMoveTimer() == 0)
                 gameState.BackToTheFuture(self.active_frame_wait)
 
                 # print(gameState.GetOppActiveFrames())
@@ -361,7 +373,8 @@ class TekkenEncyclopedia:
                 else:
                     gameState.ReturnToPresent()
 
-                    currentActiveFrame = gameState.GetLastActiveFrameHitWasOn(self.active_frame_wait)
+                    currentActiveFrame = gameState.GetLastActiveFrameHitWasOn(
+                        self.active_frame_wait)
 
                     gameState.BackToTheFuture(self.active_frame_wait)
 
@@ -370,7 +383,8 @@ class TekkenEncyclopedia:
                     if opp_id in self.FrameData:
                         frameDataEntry = self.FrameData[opp_id]
                     else:
-                        frameDataEntry = FrameDataEntry(self.print_extended_frame_data)
+                        frameDataEntry = FrameDataEntry(
+                            self.print_extended_frame_data)
                         self.FrameData[opp_id] = frameDataEntry
 
                     frameDataEntry.currentActiveFrame = currentActiveFrame
@@ -385,7 +399,8 @@ class TekkenEncyclopedia:
                         frameDataEntry.startup, frameDataEntry.damage = gameState.GetOppLatestNonZeroStartupAndDamage()
 
                     frameDataEntry.activeFrames = gameState.GetOppActiveFrames()
-                    frameDataEntry.hitType = AttackType(gameState.GetOppAttackType()).name
+                    frameDataEntry.hitType = AttackType(
+                        gameState.GetOppAttackType()).name
                     if gameState.IsOppAttackThrow():
                         frameDataEntry.hitType += "_THROW"
 
@@ -395,9 +410,11 @@ class TekkenEncyclopedia:
 
                     frameDataEntry.input = gameState.GetCurrentOppMoveString()
 
-                    frameDataEntry.technical_state_reports = gameState.GetOppTechnicalStates(frameDataEntry.startup - 1)
+                    frameDataEntry.technical_state_reports = gameState.GetOppTechnicalStates(
+                        frameDataEntry.startup - 1)
 
-                    frameDataEntry.tracking = gameState.GetOppTrackingType(frameDataEntry.startup)
+                    frameDataEntry.tracking = gameState.GetOppTrackingType(
+                        frameDataEntry.startup)
 
                     # print(gameState.GetRangeOfMove())
 
@@ -411,7 +428,8 @@ class TekkenEncyclopedia:
 
                     new_frame_advantage_calc = time_till_recovery_bot - time_till_recovery_opp
 
-                    frameDataEntry.currentFrameAdvantage = frameDataEntry.WithPlusIfNeeded(new_frame_advantage_calc)
+                    frameDataEntry.currentFrameAdvantage = frameDataEntry.WithPlusIfNeeded(
+                        new_frame_advantage_calc)
 
                     if gameState.IsBotBlocking():
                         frameDataEntry.onBlock = new_frame_advantage_calc
@@ -474,7 +492,8 @@ class FrameDataEntry:
     def InputTupleToInputString(self, inputTuple):
         s = ""
         for input in inputTuple:
-            s += (input[0].name + input[1].name.replace('x', '+')).replace('N', '')
+            s += (input[0].name + input[1].name.replace('x', '+')
+                  ).replace('N', '')
         if input[2]:
             s += "+R"
         return s
@@ -488,15 +507,18 @@ class FrameDataEntry:
             throw_type = self.throwTech.name
             if throw_type == "TE1":
                 # press 1
-                artificial_keyboard.press_and_release_n_times(0x16, MAGIC_THROW_BREAK_FLOAT, MAGIC_THROW_BREAK_NUMBER)
+                artificial_keyboard.press_and_release_n_times(
+                    0x16, MAGIC_THROW_BREAK_FLOAT, MAGIC_THROW_BREAK_NUMBER)
 
             elif throw_type == "TE2":
                 # press 2
-                artificial_keyboard.press_and_release_n_times(0x17, MAGIC_THROW_BREAK_FLOAT, MAGIC_THROW_BREAK_NUMBER)
+                artificial_keyboard.press_and_release_n_times(
+                    0x17, MAGIC_THROW_BREAK_FLOAT, MAGIC_THROW_BREAK_NUMBER)
 
             elif throw_type == "TE1_2":
                 # press 1+2
-                artificial_keyboard.press_and_release_n_times(0x18, MAGIC_THROW_BREAK_FLOAT, MAGIC_THROW_BREAK_NUMBER)
+                artificial_keyboard.press_and_release_n_times(
+                    0x18, MAGIC_THROW_BREAK_FLOAT, MAGIC_THROW_BREAK_NUMBER)
 
             notes += self.throwTech.name + " "
 
@@ -538,7 +560,8 @@ class FrameDataEntry:
             self.WithPlusIfNeeded(self.onNormalHit),
             self.WithPlusIfNeeded(self.onCounterHit),
             (str(self.currentActiveFrame) + "/" + str(self.activeFrames)),
-            self.tracking.name.replace('_MINUS', '-').replace("_PLUS", '+').replace(ComplexMoveStates.UNKN.name, '?'),
+            self.tracking.name.replace(
+                '_MINUS', '-').replace("_PLUS", '+').replace(ComplexMoveStates.UNKN.name, '?'),
             self.recovery,
             self.hitRecovery,
             self.blockRecovery
@@ -586,7 +609,8 @@ class GameStatEventEntry:
     def close_entry(self, time_in_frames, total_hits, total_damage, juggle_damage, times_hit):
         self.end_time = time_in_frames
         self.total_hits = total_hits
-        self.total_damage = max(0, total_damage - self.damage_already_on_combo_counter)
+        self.total_damage = max(
+            0, total_damage - self.damage_already_on_combo_counter)
         self.juggle_damage = juggle_damage
 
         print('{} {} | {} | {} | {} | {} | HIT'.format(self.player_string, self.hit_type.name, self.total_damage,
@@ -631,7 +655,8 @@ class RoundSummary:
             sources.append((entry, occurances, damage))
 
         sources.sort(key=lambda x: x[2], reverse=True)
-        types = [(hits_into_juggles, damage_from_juggles), (hits_into_pokes, damage_from_pokes)]
+        types = [(hits_into_juggles, damage_from_juggles),
+                 (hits_into_pokes, damage_from_pokes)]
         return sources, types
 
     def __repr__(self):
@@ -684,10 +709,12 @@ class PunishWindow:
             self.upcoming_lock = True
 
         if self.get_frame_advantage() != self.original_diff:
-            print('{} NOW:{}'.format(self.prefix, FrameDataEntry.WithPlusIfNeeded(None, self.get_frame_advantage())))
+            print('{} NOW:{}'.format(self.prefix, FrameDataEntry.WithPlusIfNeeded(
+                None, self.get_frame_advantage())))
             self.original_diff = self.get_frame_advantage()
 
     def close_window(self, result: Result):
         self.result = result
         if result != PunishWindow.Result.NO_WINDOW:
-            print("Closing punish window, result: {}".format(self.result.name))
+            # print("Closing punish window, result: {}".format(self.result.name))
+            pass

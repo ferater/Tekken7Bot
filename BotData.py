@@ -13,6 +13,67 @@ class BotBehaviors:
     # Likely due to the fact that the initial jump is counted as a mid/high attack.
     # Causing the bot to continue defending mid/high when a low is executed after.
 
+    # =================================Defend All Attacks=====================================================#
+
+    def DefendAllAttacks(gameState: TekkenGameState, botCommands: BotCommands, blockLowType):
+        BotBehaviors.StopPressingButtonsAfterGettingHit(gameState, botCommands)
+        if gameState.IsOppAttacking():
+            frames = gameState.GetOppTimeUntilImpact()
+            if gameState.IsOppAttackLow():
+                BotBehaviors.DefendLowAttacks(
+                    gameState, botCommands, blockLowType)
+            else:
+                botCommands.BlockMidFull(max(0, frames))
+    # =================================Defend High & MidAttacks=====================================================#
+
+    def DefendHighMidAttacks(gameState: TekkenGameState, botCommands: BotCommands):
+        BotBehaviors.StopPressingButtonsAfterGettingHit(gameState, botCommands)
+        if gameState.IsOppAttacking():
+            frames = gameState.GetOppTimeUntilImpact()
+            if not gameState.IsOppAttackLow():
+                botCommands.BlockMidFull(max(0, frames))
+    # =================================Defend or Parry Low Attacks=====================================================#
+
+    def DefendLowAttacks(gameState: TekkenGameState, botCommands: BotCommands, blockLowType):
+        BotBehaviors.StopPressingButtonsAfterGettingHit(gameState, botCommands)
+        if gameState.IsOppAttacking():
+            frames = gameState.GetOppTimeUntilImpact()
+            if gameState.IsOppAttackLow():
+                if blockLowType == None or blockLowType == "Block":
+                    botCommands.BlockLowFull(max(0, frames))
+                if blockLowType == "Parry":
+                    botCommands.LowParry(max(0, frames))
+                if blockLowType == "Random":
+                    if (random.randint(0, 1) == 0):
+                        botCommands.LowParry(max(0, frames))
+                    else:
+                        botCommands.BlockLowFull(max(0, frames))
+
+# ======================================================================================#
+    def TryBreakThrows(gameState: TekkenGameState, botCommands: BotCommands) -> bool:
+        """
+        Spam break throws when opponent is attempting to throw.
+
+        Output
+        -----------------
+        True if the bot is attempting break throws
+        """
+        if BotBehaviors.OppIsThrowing(gameState):
+            print("Breaking Throws")
+            botCommands.MashTech()
+            return True
+        return False
+
+    def OppIsThrowing(gameState: TekkenGameState):
+        if gameState.IsOppAttackThrow():
+            return True
+        elif gameState.IsBotStartedBeingThrown():
+            return True
+        elif gameState.IsBotBeingThrown():
+            return True
+        return False
+# ======================================================================================#
+
     def Basic(gameState, botCommands):
         if BotBehaviors.TryBreakThrows(gameState, botCommands):
             return
@@ -37,49 +98,6 @@ class BotBehaviors:
     def TechCombos(gameState, botCommands):
         if gameState.IsBotBeingJuggled():
             botCommands.MashTech()
-
-    def DefendHighMidAttacks(gameState: TekkenGameState, botCommands: BotCommands):
-        if gameState.IsOppAttacking():
-            frames = gameState.GetOppTimeUntilImpact()
-            if not gameState.IsOppAttackLow():
-                botCommands.BlockMidFull(max(0, frames))
-
-    def DefendLowAttacks(gameState: TekkenGameState, botCommands: BotCommands):
-        if gameState.IsOppAttacking():
-            frames = gameState.GetOppTimeUntilImpact()
-            if gameState.IsOppAttackLow():
-                botCommands.BlockLowFull(max(0, frames))
-
-    def DefendAllAttacks(gameState: TekkenGameState, botCommands: BotCommands):
-        if gameState.IsOppAttacking():
-            frames = gameState.GetOppTimeUntilImpact()
-            if gameState.IsOppAttackLow():
-                botCommands.BlockLowFull(max(0, frames))
-            else:
-                botCommands.BlockMidFull(max(0, frames))
-
-    def TryBreakThrows(gameState: TekkenGameState, botCommands: BotCommands) -> bool:
-        """
-        Spam break throws when opponent is attempting to throw.
-
-        Output
-        -----------------
-        True if the bot is attempting break throws
-        """
-        if BotBehaviors.OppIsThrowing(gameState):
-            print("Breaking Throws")
-            botCommands.MashTech()
-            return True
-        return False
-
-    def OppIsThrowing(gameState: TekkenGameState):
-        if gameState.IsOppAttackThrow():
-            return True
-        elif gameState.IsBotStartedBeingThrown():
-            return True
-        elif gameState.IsBotBeingThrown():
-            return True
-        return False
 
     def DefendAndCounter(gameState: TekkenGameState, botCommands: BotCommands, gameplan: Gameplan) -> bool:
         """

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>414</width>
-    <height>380</height>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -178,8 +178,8 @@
      <rect>
       <x>10</x>
       <y>220</y>
-      <width>311</width>
-      <height>51</height>
+      <width>341</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="title">
@@ -224,12 +224,32 @@
       <string>Defend All</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>331</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <italic>true</italic>
+       <underline>true</underline>
+      </font>
+     </property>
+     <property name="text">
+      <string>Low Attack Defense will not work if High and Mid Attacks is selected</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>280</y>
+      <y>290</y>
       <width>271</width>
       <height>51</height>
      </rect>
